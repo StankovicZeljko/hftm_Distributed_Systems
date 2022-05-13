@@ -1,2 +1,7 @@
-# hftm_Distributed_Systems
-Project Repo for my Distributed Systems Class @hftm
+# DEV Branch
+
+## Starten der DEV Umgebung
+
+```bash
+./mvnw quarkus:dev
+```
