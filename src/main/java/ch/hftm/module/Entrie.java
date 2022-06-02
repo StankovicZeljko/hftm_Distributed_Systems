@@ -12,8 +12,7 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 public class Entrie extends PanacheEntity {
 
-    private String author, text;
+    private String title, content;
 }
