@@ -1,4 +1,4 @@
-package ch.hftm;
+package ch.hftm.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,7 +10,7 @@ public class BlogResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
+    public String blog() {
         return "Willkommen auf meinem Blog!";
     }
 

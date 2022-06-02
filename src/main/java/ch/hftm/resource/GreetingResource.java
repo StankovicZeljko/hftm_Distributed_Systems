@@ -1,4 +1,4 @@
-package ch.hftm;
+package ch.hftm.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
