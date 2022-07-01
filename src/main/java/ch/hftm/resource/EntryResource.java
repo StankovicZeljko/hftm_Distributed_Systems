@@ -1,7 +1,10 @@
 package ch.hftm.resource;
 
-import ch.hftm.module.Entry;
+import ch.hftm.domain.Entry;
+import ch.hftm.dto.EntryDTO;
 import ch.hftm.repository.EntryRepository;
+import ch.hftm.services.MapperEntry;
+import io.quarkus.logging.Log;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -10,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/entries")
 @Produces(MediaType.APPLICATION_JSON)
@@ -19,31 +23,35 @@ public class EntryResource {
     @Inject
     EntryRepository entryRepository;
 
+    private MapperEntry mapperEntry;
+
     @GET
-    public List<Entry> entries() {
-        return entryRepository.listAll();
+    public Response entries() {
+
+        List<Entry> entryList = entryRepository.findAll().list();
+
+        if(!entryList.isEmpty()) {
+            return Response.status(Response.Status.FOUND).entity(mapperEntry.getAllEntry()).build();
+
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity(Json.createValue("Keine Einträge")).build();
+        }
     }
 
     @POST
     @Transactional
-    public Response addEntries(Entry entry) {
+    public Response addEntry( EntryDTO entryDTO) {
 
-        if(entry != null && entry.getTitle() != null) {
+        System.out.println(entryDTO);
 
-            if(this.entryRepository.entryTitelExistsNot(entry.getTitle())) {
-                this.entryRepository.persist(entry);
-                return Response.status(Response.Status.CREATED).entity(entry).build();
+        Entry entry = mapperEntry.toEntry(entryDTO);
 
-            } else {
+        System.out.println(entry.getContent());
+        System.out.println(entry.getTitle());
 
-                return Response.status(Response.Status.BAD_REQUEST).entity(Json.createValue("Titel schon vergeben")).build();
-            }
+        this.entryRepository.persist(entry);
 
-        } else {
-
-           return Response.status(Response.Status.BAD_REQUEST).entity(Json.createValue("Body nicht korrekt")).build();
-
-        }
+        return Response.ok().build();
 
     }
 

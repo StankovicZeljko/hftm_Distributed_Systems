@@ -1,5 +1,4 @@
-package ch.hftm.module;
-
+package ch.hftm.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
@@ -10,16 +9,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Entry extends PanacheEntityBase {
+public class User extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title, content;
+    @NonNull
+    private String userName;
+
+
 }

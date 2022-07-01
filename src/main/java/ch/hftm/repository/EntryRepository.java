@@ -1,8 +1,7 @@
 package ch.hftm.repository;
 
-import ch.hftm.module.Entry;
+import ch.hftm.domain.Entry;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import io.quarkus.logging.Log;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.Response;
