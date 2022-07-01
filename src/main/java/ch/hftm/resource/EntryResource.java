@@ -3,8 +3,7 @@ package ch.hftm.resource;
 import ch.hftm.domain.Entry;
 import ch.hftm.dto.EntryDTO;
 import ch.hftm.repository.EntryRepository;
-import ch.hftm.services.MapperEntry;
-import io.quarkus.logging.Log;
+import ch.hftm.services.EntryMapper;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -12,6 +11,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,36 +22,48 @@ public class EntryResource {
 
     @Inject
     EntryRepository entryRepository;
+    @Inject
+    EntryMapper entryMapper;
 
-    private MapperEntry mapperEntry;
+
 
     @GET
-    public Response entries() {
+    public Response getAll() {
 
-        List<Entry> entryList = entryRepository.findAll().list();
+        List<EntryDTO> entryDTOList = entryRepository.findAll()
+                                        .stream()
+                                        .map(entry -> this.entryMapper.toDTO(entry))
+                                        .collect(Collectors.toList());
 
-        if(!entryList.isEmpty()) {
-            return Response.status(Response.Status.FOUND).entity(mapperEntry.getAllEntry()).build();
+        if(!entryDTOList.isEmpty()) {
+            return Response.status(Response.Status.FOUND).entity(entryDTOList).build();
 
         } else {
             return Response.status(Response.Status.NOT_FOUND).entity(Json.createValue("Keine Einträge")).build();
         }
     }
 
+    @GET
+    @Path("/{id}")
+    public Response getById(@PathParam("id") Long id) {
+        return this.entryRepository.findByIdOptional(id)
+                .map(entry -> Response.ok(this.entryMapper.toDTO(entry)).build())
+                .orElse(Response.status(Response.Status.NOT_FOUND).entity(Json.createValue("Kein solcher Eintrag")).build());
+    }
+
     @POST
     @Transactional
-    public Response addEntry( EntryDTO entryDTO) {
+    public Response create( EntryDTO entryDTO) {
 
-        System.out.println(entryDTO);
-
-        Entry entry = mapperEntry.toEntry(entryDTO);
-
-        System.out.println(entry.getContent());
-        System.out.println(entry.getTitle());
+        Entry entry = this.entryMapper.toEntry(entryDTO);
 
         this.entryRepository.persist(entry);
 
-        return Response.ok().build();
+        if(this.entryRepository.isPersistent(entry)) {
+            return Response.created(URI.create("/entries/" + entry.getId().toString())).entity(this.entryMapper.toDTO(entry)).build();
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).entity(Json.createValue("Body nicht korrekt")).build();
 
     }
 
