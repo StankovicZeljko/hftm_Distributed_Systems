@@ -1,10 +1,15 @@
 package ch.hftm.domain;
 
 
+import ch.hftm.dto.validation.ValidationEntryGroups;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 
@@ -15,14 +20,24 @@ public class Entry extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Null(groups = ValidationEntryGroups.Post.class)
     private Long id;
 
-    private String title, content;
+    @NotNull(groups = ValidationEntryGroups.Post.class)
+    @Size(min = 5, max = 100)
+    private String title;
+
+    @NotNull(groups = ValidationEntryGroups.Post.class)
+    @Size(min = 4, max = 9999)
+    private String content;
 
 
+    @Null(groups = ValidationEntryGroups.Post.class)
     private Boolean allowComment;
 
     @OneToMany
+    @Null(groups = ValidationEntryGroups.Post.class)
+    @Null(groups = ValidationEntryGroups.Put.class)
     private List<Comment> commentList;
 
     public Entry () {

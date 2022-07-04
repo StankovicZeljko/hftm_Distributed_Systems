@@ -1,4 +1,4 @@
-package ch.hftm.dto;
+package ch.hftm.dto.modules;
 
 import ch.hftm.domain.Comment;
 import lombok.Getter;

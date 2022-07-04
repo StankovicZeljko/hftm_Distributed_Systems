@@ -1,13 +1,16 @@
 package ch.hftm.resource;
 
 import ch.hftm.domain.Entry;
-import ch.hftm.dto.EntryDTO;
+import ch.hftm.dto.modules.EntryDTO;
+import ch.hftm.dto.validation.ValidationEntryGroups;
 import ch.hftm.repository.EntryRepository;
-import ch.hftm.services.EntryMapper;
+import ch.hftm.dto.mapper.EntryMapper;
 
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+import javax.validation.groups.ConvertGroup;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -53,37 +56,22 @@ public class EntryResource {
 
     @POST
     @Transactional
-    public Response create( EntryDTO entryDTO) {
+    public Response create( @Valid @ConvertGroup(to = ValidationEntryGroups.Post.class) EntryDTO entryDTO) {
 
         Entry entry = this.entryMapper.toEntry(entryDTO);
 
-        this.entryRepository.persist(entry);
+        if(this.entryRepository.entryTitelExistsNot(entry.getTitle())) {
+            this.entryRepository.persist(entry);
+        }
 
         if(this.entryRepository.isPersistent(entry)) {
             return Response.created(URI.create("/entries/" + entry.getId().toString())).entity(this.entryMapper.toDTO(entry)).build();
         }
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(Json.createValue("Body nicht korrekt")).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity(Json.createValue("Titel Existiert bereits")).build();
 
     }
 
-    @PATCH
-    @Transactional
-    @Path("/{id}")
-    public Response changeEntrie(@PathParam("id") Long id, Entry changedEntry) {
-
-        Entry entry = this.entryRepository.findById(id);
-
-        if(entry != null) {
-
-            return this.entryRepository.updateEntry(id, changedEntry);
-
-        } else {
-
-            return Response.status(Response.Status.NOT_FOUND).entity(Json.createValue("ID existiert nicht")).build();
-        }
-
-    }
 
 
 }
