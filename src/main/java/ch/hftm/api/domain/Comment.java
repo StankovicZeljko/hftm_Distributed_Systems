@@ -1,28 +1,23 @@
-package ch.hftm.domain;
+package ch.hftm.api.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class User extends PanacheEntityBase {
+public class Comment extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
-    private String userName;
+    private String content;
 
 
 }

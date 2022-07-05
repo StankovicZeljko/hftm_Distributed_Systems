@@ -1,10 +1,9 @@
-package ch.hftm.repository;
+package ch.hftm.api.repository;
 
-import ch.hftm.domain.Entry;
+import ch.hftm.api.domain.Entry;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 

@@ -1,8 +1,8 @@
-package ch.hftm.dto.mapper;
+package ch.hftm.api.dto.mapper;
 
-import ch.hftm.domain.Entry;
-import ch.hftm.dto.modules.EntryCommentDTO;
-import ch.hftm.repository.EntryRepository;
+import ch.hftm.api.domain.Entry;
+import ch.hftm.api.dto.modules.EntryCommentDTO;
+import ch.hftm.api.repository.EntryRepository;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

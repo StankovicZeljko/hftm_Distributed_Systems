@@ -1,4 +1,4 @@
-package ch.hftm.dto.validation;
+package ch.hftm.api.dto.validation;
 
 import lombok.Builder;
 

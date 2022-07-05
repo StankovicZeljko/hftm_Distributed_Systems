@@ -1,8 +1,8 @@
-package ch.hftm.dto.mapper;
+package ch.hftm.api.dto.mapper;
 
 
-import ch.hftm.domain.Entry;
-import ch.hftm.dto.modules.EntryDTO;
+import ch.hftm.api.domain.Entry;
+import ch.hftm.api.dto.modules.EntryDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

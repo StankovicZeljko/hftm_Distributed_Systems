@@ -1,10 +1,9 @@
-package ch.hftm.domain;
+package ch.hftm.api.domain;
 
 
-import ch.hftm.dto.validation.ValidationEntryGroups;
+import ch.hftm.api.dto.validation.ValidationEntryGroups;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

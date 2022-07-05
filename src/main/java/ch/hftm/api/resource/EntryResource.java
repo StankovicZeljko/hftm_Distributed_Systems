@@ -1,10 +1,10 @@
-package ch.hftm.resource;
+package ch.hftm.api.resource;
 
-import ch.hftm.domain.Entry;
-import ch.hftm.dto.modules.EntryDTO;
-import ch.hftm.dto.validation.ValidationEntryGroups;
-import ch.hftm.repository.EntryRepository;
-import ch.hftm.dto.mapper.EntryMapper;
+import ch.hftm.api.domain.Entry;
+import ch.hftm.api.dto.modules.EntryDTO;
+import ch.hftm.api.dto.validation.ValidationEntryGroups;
+import ch.hftm.api.repository.EntryRepository;
+import ch.hftm.api.dto.mapper.EntryMapper;
 
 import javax.inject.Inject;
 import javax.json.Json;

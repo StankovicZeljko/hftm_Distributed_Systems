@@ -1,12 +1,11 @@
-package ch.hftm.dto.modules;
+package ch.hftm.api.dto.modules;
 
 
-import ch.hftm.dto.validation.ValidationEntryGroups;
+import ch.hftm.api.dto.validation.ValidationEntryGroups;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
